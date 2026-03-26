@@ -4,21 +4,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Gratis - rahmansurya</title>
+    <title>Rahman Surya | Cyber Ops</title>
     <style>
-        body { font-family: Arial; margin: 40px; background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; }
-        h1 { font-size: 3em; margin-bottom: 20px; }
-        button { padding: 15px 30px; font-size: 18px; background: #ff6b6b; color: white; border: none; border-radius: 25px; cursor: pointer; }
-        button:hover { background: #ff5252; }
-        #output { margin-top: 30px; font-size: 24px; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .name {
+            font-size: 4.5em;
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px #00ff41;
+            animation: glitch 2s infinite;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 1.4em;
+            opacity: 0.8;
+            letter-spacing: 4px;
+        }
+
+        .scanline {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff41, transparent);
+            margin: 40px 0;
+            animation: scan 3s linear infinite;
+        }
+
+        .section {
+            background: rgba(0, 20, 0, 0.6);
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 4px solid #00ff41;
+            border-radius: 0 8px 8px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .section h2 {
+            color: #ff0040;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .info-item::before {
+            content: '>>';
+            color: #00ff41;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill-tag {
+            background: rgba(0, 255, 65, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #00ff41;
+            animation: pulse 2s infinite;
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 1px solid #00ff41;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .terminal::before {
+            content: '$ rahman@cyberops:~';
+            color: #00ff41;
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            font-size: 0.9em;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100vw); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            .name { font-size: 2.5em; }
+        }
     </style>
 </head>
 <body>
-    <h1>🌐 Website Gratis GitHub Pages!</h1>
-    <p>Repo: <strong>rahmansurya/tersesat.github.io</strong></p>
-    <button onclick="runScript()">Jalankan Script JS</button>
-    <div id="output">Klik tombol di atas!</div>
+    <canvas class="matrix-bg" id="matrix"></canvas>
 
-    <script src="script.js"></script>
+    <div class="container">
+        <div class="header">
+            <h1 class="name">RAHMAN SURYA</h1>
+            <p class="title">CYBERSECURITY OPERATIONS | PENETRATION TESTER | SCRIPT KIDDIE</p>
+        </div>
+
+        <div class="scanline"></div>
+
+        <div class="section">
+            <h2>IDENTITY</h2>
+            <div class="info-grid">
+                <div class="info-item">Location: Sumedang, West Java, ID</div>
+                <div class="info-item">Status: Online</div>
+                <div class="info-item">Preferred Language: Indonesian</div>
+                <div class="info-item">GitHub: rahmansurya</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>SKILLS</h2>
+            <div class="skills">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Lua</span>
+                <span class="skill-tag">Bash</span>
+                <span class="skill-tag">Nmap</span>
+                <span class="skill-tag">Metasploit</span>
+                <span class="skill-tag">Burp Suite</span>
+                <span class="skill-tag">Wireshark</span>
+                <span class="skill-tag">Git/GitHub</span>
+                <span class="skill-tag">Linux</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>RECENT OPS</h2>
+            <div class="terminal">
+[2026-03-26 19:34] GitHub Pages deployment successful
+[2026-03-26 19:27] Deployed index.html + script.js (46 lines)
+[2026-03-26 19:21] Fixed RPC 408 connection timeout
+[2026-03-26 19:16] Mastered Git workflow (push/pull/reset)
+[2026-03-26 19:10] Lua script analysis complete
+[-] Scanning for new targets...
+            </div>
+        </div>
+
+        <div class="scanline"></div>
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+
+            drops.forEach((y, i) => {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, y * fontSize);
+
+                if (y * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            });
+        }
+
+        setInterval(draw, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
