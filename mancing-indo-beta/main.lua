@@ -1,15 +1,15 @@
 -- =============================================
---     🎣 MANCING HUB - WindUI Full (Update Floating Icon pake rbxassetid)
---     F3 Toggle + Minimize ke Floating Icon + Close Confirmation
+--     🎣 MANCING HUB - WindUI (FIXED Floating Icon)
+--     F3 Toggle + Minimize ke Floating Icon Pojok Kiri
 -- =============================================
 
-local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
-local Window = WindUI:NewWindow({
+local Window = WindUI:CreateWindow({
     Title = "🎣 Mancing HUB",
     Size = UDim2.fromOffset(440, 340),
     Position = UDim2.fromScale(0.5, 0.5),
-    ToggleKey = Enum.KeyCode.F3,      -- Tekan F3 untuk toggle UI
+    ToggleKey = Enum.KeyCode.F3,   -- Tekan F3 buka/tutup
     Theme = "Dark",
 })
 
@@ -36,7 +36,7 @@ FishingSection:Toggle({
     Callback = function(state)
         LegitEnabled = state
         print("Legit Tap Fishing:", state)
-        -- Taruh script Legit di sini
+        -- Taruh script legit fishing di sini
     end
 })
 
@@ -47,7 +47,7 @@ FishingSection:Toggle({
     Callback = function(state)
         FastEnabled = state
         print("Fast Tap Fishing:", state)
-        -- Taruh script Fast di sini
+        -- Taruh script fast fishing di sini
     end
 })
 
@@ -61,7 +61,9 @@ TpSection:Dropdown({
     Title = "Pilih Lokasi",
     Options = {"Spawn", "Dock", "Deep Sea", "Secret Island", "Boss Area", "Shop"},
     Value = "Spawn",
-    Callback = function(value) selectedLoc = value end
+    Callback = function(value)
+        selectedLoc = value
+    end
 })
 
 TpSection:Button({
@@ -70,16 +72,19 @@ TpSection:Button({
         local HRP = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if HRP then
             print("Teleport ke " .. selectedLoc)
-            -- GANTI CFRAME SESUAI GAME LO
-            if selectedLoc == "Spawn" then HRP.CFrame = CFrame.new(0, 50, 0)
-            elseif selectedLoc == "Dock" then HRP.CFrame = CFrame.new(120, 15, 250)
-            elseif selectedLoc == "Deep Sea" then HRP.CFrame = CFrame.new(600, -40, 900)
+            -- GANTI CFRAME SESUAI GAME LO (Fish It! / Fisch)
+            if selectedLoc == "Spawn" then
+                HRP.CFrame = CFrame.new(0, 50, 0)
+            elseif selectedLoc == "Dock" then
+                HRP.CFrame = CFrame.new(120, 15, 250)
+            elseif selectedLoc == "Deep Sea" then
+                HRP.CFrame = CFrame.new(600, -40, 900)
             end
         end
     end
 })
 
--- ==================== FLOATING ICON PAKE RBXASSETID ====================
+-- ==================== FLOATING ICON (FIXED) ====================
 local function CreateFloatingIcon()
     if FloatingGui then FloatingGui:Destroy() end
 
@@ -88,41 +93,41 @@ local function CreateFloatingIcon()
     FloatingGui.ResetOnSpawn = false
     FloatingGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    local IconFrame = Instance.new("Frame")
-    IconFrame.Size = UDim2.fromOffset(60, 60)
-    IconFrame.Position = UDim2.fromOffset(20, 100)
-    IconFrame.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
-    IconFrame.BorderSizePixel = 0
-    IconFrame.Parent = FloatingGui
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.fromOffset(65, 65)
+    Frame.Position = UDim2.fromOffset(30, 150)  -- Pojok kiri
+    Frame.BackgroundColor3 = Color3.fromRGB(0, 140, 255)
+    Frame.BorderSizePixel = 0
+    Frame.Parent = FloatingGui
 
-    Instance.new("UICorner", IconFrame).CornerRadius = UDim.new(0, 18)
-    Instance.new("UIStroke", IconFrame).Thickness = 2
+    Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 20)
+    Instance.new("UIStroke", Frame).Thickness = 2.5
 
-    local IconImage = Instance.new("ImageLabel")
-    IconImage.Size = UDim2.fromScale(0.75, 0.75)
-    IconImage.Position = UDim2.fromScale(0.5, 0.5)
-    IconImage.AnchorPoint = Vector2.new(0.5, 0.5)
-    IconImage.BackgroundTransparency = 1
-    IconImage.Image = "rbxassetid://6031094678"   -- <<< GANTI ID INI KALAU MAU ICON LAIN
-    IconImage.ImageColor3 = Color3.new(1, 1, 1)
-    IconImage.Parent = IconFrame
+    local Image = Instance.new("ImageLabel")
+    Image.Size = UDim2.fromScale(0.7, 0.7)
+    Image.Position = UDim2.fromScale(0.5, 0.5)
+    Image.AnchorPoint = Vector2.new(0.5, 0.5)
+    Image.BackgroundTransparency = 1
+    Image.Image = "rbxassetid://6031094678"   -- Icon ikan (bisa diganti)
+    Image.ImageColor3 = Color3.new(1, 1, 1)
+    Image.Parent = Frame
 
     -- Draggable
     local dragging = false
     local dragStart, startPos
 
-    IconFrame.InputBegan:Connect(function(input)
+    Frame.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
             dragStart = input.Position
-            startPos = IconFrame.Position
+            startPos = Frame.Position
         end
     end)
 
     game:GetService("UserInputService").InputChanged:Connect(function(input)
         if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             local delta = input.Position - dragStart
-            IconFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)
 
@@ -133,21 +138,23 @@ local function CreateFloatingIcon()
     end)
 
     -- Klik icon = buka UI
-    IconFrame.InputEnded:Connect(function(input)
+    Frame.InputEnded:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            Window:Toggle()
+            Window:Toggle()   -- Toggle UI WindUI
             FloatingGui.Enabled = false
         end
     end)
 end
 
--- ==================== MINIMIZE BUTTON ====================
-Window:CreateTopbarButton({
-    Name = "Minimize",
+-- ==================== MINIMIZE BUTTON (Manual di Main Tab) ====================
+MainTab:Section({ Title = "Control" }):Button({
+    Title = "Minimize ke Floating Icon",
     Callback = function()
-        Window:Close()
+        Window:Toggle()          -- Sembunyikan UI utama
         CreateFloatingIcon()
-        if FloatingGui then FloatingGui.Enabled = true end
+        if FloatingGui then
+            FloatingGui.Enabled = true
+        end
     end
 })
 
@@ -155,7 +162,7 @@ Window:CreateTopbarButton({
 Window.OnClose = function()
     WindUI:CreateDialog({
         Title = "Konfirmasi Keluar",
-        Content = "Yakin ingin keluar dari Mancing HUB?\nSemua fitur akan dimatikan.",
+        Content = "Yakin ingin keluar dari Mancing HUB?\nSemua auto fishing akan dimatikan.",
         Buttons = {
             {
                 Title = "Ya",
@@ -166,7 +173,7 @@ Window.OnClose = function()
                     
                     game:GetService("StarterGui"):SetCore("SendNotification", {
                         Title = "Mancing HUB",
-                        Text = "HUB ditutup. Execute loader lagi untuk membuka.",
+                        Text = "HUB ditutup.\nExecute loader lagi untuk membuka.",
                         Duration = 6
                     })
                     Window:Destroy()
@@ -177,5 +184,8 @@ Window.OnClose = function()
     })
 end
 
-print("✅ Mancing HUB Loaded dengan Floating Icon (rbxassetid)!")
-print("Tekan F3 untuk toggle | Klik Minimize untuk floating icon pojok kiri 🐟")
+print("✅ Mancing HUB FIXED & Loaded!")
+print("   • Tekan F3 untuk toggle UI")
+print("   • Klik 'Minimize ke Floating Icon' di tab Main")
+print("   • Floating icon harus muncul di pojok kiri (bisa di-drag)")
+print("   • Gas mancing bro! 🐟")
