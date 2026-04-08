@@ -57,7 +57,7 @@ local function sendToDiscord()
         
         local data = {
             ["embeds"] = {embed},
-            ["username"] = "Mancing Monitor",
+            ["username"] = "PRIV8 Monitor SC",
             ["avatar_url"] = "https://cdn.discordapp.com/attachments/123/456/fish.png"
         }
         
