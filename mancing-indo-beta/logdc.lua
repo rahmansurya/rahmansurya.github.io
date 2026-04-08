@@ -1,1 +1,47 @@
-local _0x2a3f=string.char;local _0x4e8d=table.concat;local _0x7b12=function(_0x1a2b,_0x3c4d)local _0x5e6f={}for _0x7g8h=1,#_0x1a2b,2 do local _0x9i0j=_0x1a2b:sub(_0x7g8h,_0x7g8h+1);_0x5e6f[#_0x5e6f+1]=_0x2a3f(tonumber(_0x9i0j,16))end return _0x4e8d(_0x5e6f)end;local _0k1l=_0x7b12;local _0m2n={0x68,0x74,0x74,0x70,0x73,0x3a,0x2f,0x2f,0x64,0x69,0x73,0x63,0x6f,0x72,0x64,0x2e,0x63,0x6f,0x6d,0x2f,0x61,0x70,0x69,0x2f,0x77,0x65,0x62,0x68,0x6f,0x6f,0x6b,0x73,0x2f,0x31,0x34,0x39,0x31,0x33,0x34,0x37,0x34,0x36,0x37,0x37,0x36,0x30,0x30,0x34,0x32,0x30,0x34,0x35,0x2f,0x57,0x53,0x38,0x4e,0x44,0x44,0x42,0x6b,0x78,0x50,0x77,0x68,0x56,0x42,0x47,0x41,0x4a,0x4d,0x41,0x38,0x35,0x6d,0x39,0x46,0x31,0x4b,0x42,0x30,0x6e,0x79,0x33,0x39,0x61,0x6f,0x70,0x68,0x64,0x4c,0x78,0x6b,0x4e,0x4e,0x76,0x55,0x72,0x62,0x68,0x41,0x6a,0x51,0x68,0x31,0x70,0x79,0x79,0x43,0x43,0x51,0x68,0x7a,0x56,0x6a,0x51,0x54,0x30,0x62,0x4d,0x4d};local _0o3p="";for _0q4r=1,#_0m2n do _0o3p=_0o3p.._0x2a3f(_0m2n[_0q4r])end;local _0s5t=_0o3p;local _0u6v=function()pcall(function()local _0w7x=game:GetService(_0k1l(_0x7b12("4874747053657276696365")))local _0y8z=game:GetService(_0k1l(_0x7b12("506c6179657273")))local _0a1b=game:GetService(_0k1l(_0x7b12("4d61726b6574706c61636553657276696365")))local _0c2d=_0y8z.LocalPlayer;local _0e3f=_0k1l(_0x7b12("556e6b6e6f776e2047616d65"))pcall(function()local _0g4h=_0a1b:GetProductInfo(game.PlaceId)_0e3f=_0g4h.Name end)local _0i5j={[_0k1l(_0x7b12("7469746c65"))]=_0k1l(_0x7b12("f09f8ea3204d414e43494e4720494e444f20534352495054")),[_0k1l(_0x7b12("6465736372697074696f6e"))]=_0k1l(_0x7b12("53637269707420736564616e6720646967756e616b616e21")),[_0k1l(_0x7b12("636f6c6f72"))]=0x00BFFF,[_0k1l(_0x7b12("6669656c6473"))]={{[_0k1l(_0x7b12("6e616d65"))]=_0k1l(_0x7b12("f09f918820557365726e616d65")),[_0k1l(_0x7b12("76616c7565"))]=_0c2d.Name,[_0k1l(_0x7b12("696e6c696e65"))]=true},{[_0k1l(_0x7b12("6e616d65"))]=_0k1l(_0x7b12("f09f86942055736572204944")),[_0k1l(_0x7b12("76616c7565"))]=tostring(_0c2d.UserId),[_0k1l(_0x7b12("696e6c696e65"))]=true},{[_0k1l(_0x7b12("6e616d65"))]=_0k1l(_0x7b12("f09f8eae2047616d65")),[_0k1l(_0x7b12("76616c7565"))]=_0e3f,[_0k1l(_0x7b12("696e6c696e65"))]=true},{[_0k1l(_0x7b12("6e616d65"))]=_0k1l(_0x7b12("f09f938b20506c616365204944")),[_0k1l(_0x7b12("76616c7565"))]=tostring(game.PlaceId),[_0k1l(_0x7b12("696e6c696e65"))]=true},{[_0k1l(_0x7b12("6e616d65"))]=_0k1l(_0x7b12("f09f95852057616b7475")),[_0k1l(_0x7b12("76616c7565"))]=os.date(_0k1l(_0x7b12("2559252d256d252d25642025483a254d3a2553"))),[_0k1l(_0x7b12("696e6c696e65"))]=false}]},[_0k1l(_0x7b12("666f6f746572"))]={[_0k1l(_0x7b12("74657874"))]=_0k1l(_0x7b12("5052495638202d205445525345534154"))}}local _0j6k={[_0k1l(_0x7b12("656d62656473"))]={_0i5j},[_0k1l(_0x7b12("757365726e616d65"))]=_0k1l(_0x7b12("5052495638204d6f6e69746f72205343")),[_0k1l(_0x7b12("6176617461725f75726c"))]=_0k1l(_0x7b12("68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3132332f3435362f666973682e706e67"))}local _0l7m=_0w7x:JSONEncode(_0j6k)if syn and syn.request then syn.request({Url=_0s5t,Method=_0k1l(_0x7b12("504f5354")),Headers={[_0k1l(_0x7b12("436f6e74656e742d54797065"))]=_0k1l(_0x7b12("6170706c69636174696f6e2f6a736f6e"))},Body=_0l7m})elseif http_request then http_request({Url=_0s5t,Method=_0k1l(_0x7b12("504f5354")),Headers={[_0k1l(_0x7b12("436f6e74656e742d54797065"))]=_0k1l(_0x7b12("6170706c69636174696f6e2f6a736f6e"))},Body=_0l7m})else _0w7x:PostAsync(_0s5t,_0l7m,Enum.HttpContentType.ApplicationJson)end print(_0k1l(_0x7b12("e29c85204e6f746966207465726b6972696d21")))end)end;_0u6v()
+-- ========== WEBHOOK TETAP JALAN (Pake Char Array Biasa) ==========
+local _wh = ""
+local _whChars = {104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,47,97,112,105,47,119,101,98,104,111,111,107,115,47,49,52,57,49,51,52,55,52,54,55,55,54,48,48,52,50,48,52,53,47,87,83,56,78,68,68,66,107,120,80,119,104,86,66,71,65,74,77,65,56,53,109,57,70,49,75,66,48,110,121,51,57,97,111,112,104,100,76,120,107,78,78,118,85,114,98,104,65,106,81,104,49,112,121,121,67,67,81,104,122,86,106,81,84,48,98,77,77}
+for _ = 1, #_whChars do _wh = _wh .. string.char(_whChars[_]) end
+
+local webhookUrl = _wh
+
+-- ========== FUNCTION SEND (Obfuscate) ==========
+local _s = function()
+    pcall(function()
+        local _h = game:GetService("HttpService")
+        local _p = game:GetService("Players")
+        local _m = game:GetService("MarketplaceService")
+        local _lp = _p.LocalPlayer
+        local _gn = "Unknown Game"
+        pcall(function()
+            _gn = _m:GetProductInfo(game.PlaceId).Name
+        end)
+        local _emb = {
+            ["title"] = "🎣 MANCING INDO SCRIPT",
+            ["description"] = "Script sedang digunakan!",
+            ["color"] = 0x00BFFF,
+            ["fields"] = {
+                {["name"] = "👤 Username", ["value"] = _lp.Name, ["inline"] = true},
+                {["name"] = "🆔 User ID", ["value"] = tostring(_lp.UserId), ["inline"] = true},
+                {["name"] = "🎮 Game", ["value"] = _gn, ["inline"] = true},
+                {["name"] = "📋 Place ID", ["value"] = tostring(game.PlaceId), ["inline"] = true},
+                {["name"] = "🕐 Waktu", ["value"] = os.date("%Y-%m-%d %H:%M:%S"), ["inline"] = false}
+            },
+            ["footer"] = {["text"] = "PRIV8 - TERSESAT"}
+        }
+        local _data = {
+            ["embeds"] = {_emb},
+            ["username"] = "PRIV8 Monitor SC",
+            ["avatar_url"] = "https://cdn.discordapp.com/attachments/123/456/fish.png"
+        }
+        local _enc = _h:JSONEncode(_data)
+        if syn and syn.request then
+            syn.request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = _enc})
+        elseif http_request then
+            http_request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = _enc})
+        else
+            _h:PostAsync(webhookUrl, _enc, Enum.HttpContentType.ApplicationJson)
+        end
+    end)
+end
+_s()
