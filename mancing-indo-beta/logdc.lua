@@ -1,5 +1,5 @@
 -- discord_notif.lua
-local webhookUrl = "https://discord.com/api/webhooks/1485407721032388723/LIOWZQ4-tbnva0nM9CFdy7WAAoQgQUiqXtx5OAQNmr0GzT3NwpyGKc-evrrMdT4lWhpY"
+local webhookUrl = "https://discord.com/api/webhooks/1491347467760042045/WS8NDDBkxPwhVBGAJMA85m9F1KB0ny39aophdLxkNNvUrbhAjQh1pyyCCQhzVjQT0bMM"
 
 local function sendToDiscord()
     local success, err = pcall(function()
