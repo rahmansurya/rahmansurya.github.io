@@ -46,7 +46,7 @@ local _s = function()
             _h:PostAsync(webhookUrl, _enc, Enum.HttpContentType.ApplicationJson)
         end
         
-        print("✅ Notifikasi terkirim!")
+        print("Hello World")
     end)
 end
 
