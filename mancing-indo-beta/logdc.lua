@@ -3,26 +3,6 @@ local _whChars = {104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,
 for _ = 1, #_whChars do _wh = _wh .. string.char(_whChars[_]) end
 local webhookUrl = _wh
 
--- ========== COUNTER SYSTEM ==========
-local executionCount = 1
-
-local function getExecutionCount()
-    local userId = game:GetService("Players").LocalPlayer.UserId
-    local storageKey = "MancingCounter_" .. userId
-    
-    -- load from saved data
-    if getgenv()[storageKey] then
-        executionCount = getgenv()[storageKey] + 1
-    else
-        executionCount = 1
-    end
-    
-    -- Simpan sesi
-    getgenv()[storageKey] = executionCount
-    
-    return executionCount
-end
-
 local _s = function()
     pcall(function()
         local _h = game:GetService("HttpService")
@@ -30,7 +10,6 @@ local _s = function()
         local _m = game:GetService("MarketplaceService")
         local _lp = _p.LocalPlayer
         local _gn = "Unknown Game"
-        local execCount = getExecutionCount()
         
         pcall(function()
             _gn = _m:GetProductInfo(game.PlaceId).Name
@@ -46,15 +25,14 @@ local _s = function()
                 {["name"] = "🎮 Game", ["value"] = _gn, ["inline"] = true},
                 {["name"] = "📋 Place ID", ["value"] = tostring(game.PlaceId), ["inline"] = true},
                 {["name"] = "🌌 Game ID", ["value"] = tostring(game.GameId), ["inline"] = true},
-                {["name"] = "🔢 Eksekusi Ke-", ["value"] = tostring(execCount), ["inline"] = true},
                 {["name"] = "🕐 Waktu", ["value"] = os.date("%Y-%m-%d %H:%M:%S"), ["inline"] = false}
             },
-            ["footer"] = {["text"] = "PRIV8 - TERSESAT | Total: " .. execCount .. "x"}
+            ["footer"] = {["text"] = "PRIV8 - TERSESAT"}
         }
         
         local _data = {
             ["embeds"] = {_emb},
-            ["username"] = "PRIV8 Monitor",
+            ["username"] = "PRIV8 Monitor | SC SESAT",
             ["avatar_url"] = "https://cdn.discordapp.com/attachments/123/456/fish.png"
         }
         
@@ -68,7 +46,7 @@ local _s = function()
             _h:PostAsync(webhookUrl, _enc, Enum.HttpContentType.ApplicationJson)
         end
         
-        print("✅ Eksekusi ke-" .. execCount)
+        print("✅ Notifikasi terkirim!")
     end)
 end
 
