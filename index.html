@@ -3,72 +3,292 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>root@vir0e5</title>
+<title>Portfolio | Rahman Surya</title>
 
 <style>
 body {
+    background:#000080;
+    color:#ffffff;
+    font-family: "Courier New", monospace;
+    font-size:18px;
     margin:0;
-    background:black;
-    color:#00ff41;
-    font-family:"Courier New", monospace;
-    overflow:hidden;
 }
 
-/* CRT EFFECT */
-body::after {
-    content:"";
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:repeating-linear-gradient(
-        0deg,
-        rgba(0,255,0,0.05),
-        rgba(0,255,0,0.05) 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    pointer-events:none;
-}
-
-/* TERMINAL */
-#terminal {
-    padding:20px;
+.full {
     height:100vh;
-    overflow-y:auto;
-    white-space:pre-wrap;
-}
-
-/* INPUT */
-.input-line {
     display:flex;
-}
-.prompt {
-    color:#00ff41;
-    margin-right:5px;
-}
-input {
-    background:none;
-    border:none;
-    outline:none;
-    color:#00ff41;
-    width:100%;
-    font-family:inherit;
+    flex-direction:column;
 }
 
-/* BLINK */
-.cursor {
-    animation:blink 1s infinite;
+.header {
+    text-align:center;
+    padding:8px;
+    font-weight:bold;
 }
-@keyframes blink {
-    50% {opacity:0;}
+
+.menu {
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    border-top:1px solid #fff;
+    border-bottom:1px solid #fff;
+    padding:5px;
+}
+
+.menu div {
+    cursor:pointer;
+    padding:2px 8px;
+}
+
+.menu .active {
+    background:#fff;
+    color:#000080;
+}
+
+.content {
+    flex:1;
+    padding:15px 40px;
+    overflow-y:auto;
+}
+
+.item {
+    padding:4px 0;
+}
+
+.title {
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.footer {
+    display:flex;
+    justify-content:space-between;
+    padding:5px;
+    border-top:1px solid #fff;
+    font-size:14px;
+}
+
+a { color:#fff; }
+
+@media(max-width:768px){
+    body { font-size:14px; }
+    .content { padding:10px; }
 }
 </style>
 </head>
 
 <body>
 
-<div id="terminal"></div>
+<div class="full">
 
-<script src="script.js"></script>
+<div class="header">
+BIOS Setup Utility - x62
+</div>
+
+<div class="menu" id="menu">
+<div class="active">Main</div>
+<div>Summary</div>
+<div>Experience</div>
+<div>Education</div>
+<div>Skills</div>
+<div>Projects</div>
+</div>
+
+<div class="content" id="content"></div>
+
+<div class="footer">
+<span>← → Menu</span>
+<span>Scroll untuk baca</span>
+</div>
+
+</div>
+
+<script>
+
+const menus = ["Main","Summary","Experience","Education","Skills","Projects"];
+let currentMenu = 0;
+let typing = false;
+
+/* TYPEWRITER PER BARIS */
+function typeLines(el, lines, i = 0) {
+    if (i >= lines.length) {
+        typing = false;
+        return;
+    }
+
+    let div = document.createElement("div");
+    div.className = "item";
+    el.appendChild(div);
+
+    let text = lines[i];
+    let j = 0;
+
+    function typeChar() {
+        if (j < text.length) {
+            div.innerHTML += text[j];
+            j++;
+            setTimeout(typeChar, 10);
+        } else {
+            typeLines(el, lines, i + 1);
+        }
+    }
+
+    typeChar();
+}
+
+/* RENDER DATA */
+function render(){
+
+document.querySelectorAll("#menu div").forEach((m,i)=>{
+m.classList.toggle("active", i===currentMenu);
+});
+
+let lines = [];
+
+/* MAIN */
+if(menus[currentMenu]==="Main"){
+lines = [
+"Name ............ Rahman Surya",
+"Field ........... Informatics Engineering",
+"Focus Area ...... Software Development & Security Analyst",
+"Primary Stack ... PHP, Python, SQL Server",
+"Interest ........ Automation, Backend Systems, Networking & Security Engineering",
+"Status .......... Open to Opportunities"
+];
+}
+
+/* SUMMARY */
+if(menus[currentMenu]==="Summary"){
+lines = [
+"Professional Summary",
+"",
+"Seorang individu dengan latar belakang Teknik Informatika yang memiliki ketertarikan kuat pada bidang pengembangan perangkat lunak, keamanan sistem, serta otomatisasi proses berbasis teknologi.",
+"Memiliki kemampuan analitis yang baik dalam memahami sistem dan problem solving untuk solusi efisien & scalable.",
+"",
+"Berpengalaman dalam web development menggunakan Python, PHP, Lua, serta database dan struktur data."
+];
+}
+
+/* EXPERIENCE */
+if(menus[currentMenu]==="Experience"){
+lines = [
+"Experience Timeline",
+"",
+"[2007 - 2009] Early Computer Exposure",
+"Windows XP, file system, basic software usage",
+"",
+"[2010 - 2012] Internet & Networking",
+"LAN, modem setup, forum & community exploration",
+"",
+"[2013 - 2015] Scripting & Logic",
+"Game/app modification, basic programming logic",
+"",
+"[2016 - 2017] Programming Fundamentals",
+"PHP, Python basics, algorithm learning",
+"",
+"[2018 - 2019] Web & Database",
+"CRUD system, MySQL / SQL Server integration",
+"",
+"[2020 - 2021] Automation & Linux",
+"Backend scripting, system automation",
+"",
+"[2022 - 2023] API Integration",
+"WhatsApp notification system, real-time data",
+"",
+"[2024 - 2025] Optimization",
+"Performance tuning, debugging, system design",
+"",
+"[2026 - Present] System Engineering",
+"Security awareness, automation, monitoring systems"
+];
+}
+
+/* EDUCATION */
+if(menus[currentMenu]==="Education"){
+lines = [
+"Teknik Informatika",
+"",
+"Focus:",
+"- Programming",
+"- Database",
+"- Networking",
+"- System Design",
+"- Software Engineering"
+];
+}
+
+/* SKILLS */
+if(menus[currentMenu]==="Skills"){
+lines = [
+"Technical Skills",
+"",
+"Backend Development .......... [█████████ ]",
+"PHP Programming .............. [█████████ ]",
+"Python Programming ........... [████████  ]",
+"Database (SQL Server) ........ [████████  ]",
+"Scripting (Lua/Bash) ......... [████████  ]",
+"Debugging & Troubleshooting .. [█████████ ]",
+"",
+"Security & Networking",
+"Basic Penetration Testing .... [███████   ]",
+"Web Security (OWASP) ......... [████████  ]",
+"Network Analysis ............. [████████  ]",
+"System Hardening ............. [███████   ]",
+"",
+"Hobbies",
+"Gaming & Strategy ............ [█████████ ]",
+"Exploration & Adventure ...... [████████  ]"
+];
+}
+
+/* PROJECTS */
+if(menus[currentMenu]==="Projects"){
+lines = ["Loading repositories..."];
+fetch("https://api.github.com/users/rahmansurya/repos")
+.then(res=>res.json())
+.then(data=>{
+let repoLines = data.slice(0,6).map(r=>r.name);
+document.getElementById("content").innerHTML="";
+typing = true;
+typeLines(document.getElementById("content"), repoLines);
+});
+}
+
+/* RESET CONTENT */
+if(menus[currentMenu]!=="Projects"){
+let content = document.getElementById("content");
+content.innerHTML = "";
+typing = true;
+typeLines(content, lines);
+}
+
+}
+
+/* NAV */
+document.addEventListener("keydown", e=>{
+if(typing) return;
+
+if(e.key==="ArrowRight"){
+currentMenu = (currentMenu+1)%menus.length;
+}
+if(e.key==="ArrowLeft"){
+currentMenu = (currentMenu-1+menus.length)%menus.length;
+}
+
+render();
+});
+
+/* CLICK */
+document.getElementById("menu").onclick = e=>{
+if(e.target.tagName==="DIV"){
+currentMenu = [...e.target.parentNode.children].indexOf(e.target);
+render();
+}
+};
+
+render();
+
+</script>
+
 </body>
 </html>
