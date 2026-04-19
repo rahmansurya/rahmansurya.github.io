@@ -1,294 +1,337 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio | Rahman Surya</title>
 
 <style>
-body {
-    background:#000080;
-    color:#ffffff;
-    font-family: "Courier New", monospace;
-    font-size:18px;
-    margin:0;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.full {
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-}
+  html, body { background: #000080 !important; }
 
-.header {
-    text-align:center;
-    padding:8px;
-    font-weight:bold;
-}
+  .bios-root {
+    background: #000080;
+    color: #ffffff;
+    font-family: "Courier New", Courier, monospace;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-.menu {
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    border-top:1px solid #fff;
-    border-bottom:1px solid #fff;
-    padding:5px;
-}
+  .bios-header {
+    text-align: center;
+    padding: 6px 10px;
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid #fff;
+    letter-spacing: 1px;
+    background: #000080;
+  }
 
-.menu div {
-    cursor:pointer;
-    padding:2px 8px;
-}
+  .bios-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px 4px;
+    border-bottom: 1px solid #fff;
+    padding: 5px 6px;
+    background: #000070;
+  }
 
-.menu .active {
-    background:#fff;
-    color:#000080;
-}
+  .bios-menu div {
+    cursor: pointer;
+    padding: 3px 10px;
+    font-size: 13px;
+    font-family: "Courier New", Courier, monospace;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    user-select: none;
+  }
 
-.content {
-    flex:1;
-    padding:15px 40px;
-    overflow-y:auto;
-}
+  .bios-menu div.active {
+    background: #fff;
+    color: #000080;
+    font-weight: bold;
+  }
 
-.item {
-    padding:4px 0;
-}
+  .bios-content {
+    flex: 1;
+    padding: 14px 24px;
+    overflow-y: auto;
+    background: #000080;
+  }
 
-.title {
-    margin-top:15px;
-    font-weight:bold;
-}
+  .bios-line {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.65;
+    color: #fff;
+  }
 
-.footer {
-    display:flex;
-    justify-content:space-between;
-    padding:5px;
-    border-top:1px solid #fff;
-    font-size:14px;
-}
+  .bios-line.title-line {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffff00;
+    margin-top: 4px;
+  }
 
-a { color:#fff; }
+  .bios-line.sub-line {
+    font-size: 13px;
+    color: #aaffff;
+    font-weight: bold;
+  }
 
-@media(max-width:768px){
-    body { font-size:14px; }
-    .content { padding:10px; }
-}
+  .bios-line.blank { height: 10px; display: block; }
+
+  .bios-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    border-top: 1px solid #fff;
+    font-size: 11px;
+    background: #000070;
+    flex-wrap: wrap;
+    gap: 4px;
+    color: #aaddff;
+  }
+
+  .nav-btn {
+    background: #fff;
+    color: #000080;
+    border: none;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    cursor: pointer;
+    margin-right: 4px;
+  }
+
+  @media (max-width: 520px) {
+    .bios-header { font-size: 12px; padding: 5px 6px; }
+    .bios-menu div { font-size: 11px; padding: 3px 6px; }
+    .bios-content { padding: 10px 12px; }
+    .bios-line { font-size: 12px; }
+    .bios-line.title-line { font-size: 13px; }
+    .bios-line.sub-line { font-size: 11px; }
+  }
 </style>
-</head>
 
-<body>
-
-<div class="full">
-
-<div class="header">
-BIOS Setup Utility - x62
-</div>
-
-<div class="menu" id="menu">
-<div class="active">Main</div>
-<div>Summary</div>
-<div>Experience</div>
-<div>Education</div>
-<div>Skills</div>
-<div>Projects</div>
-</div>
-
-<div class="content" id="content"></div>
-
-<div class="footer">
-<span>← → Menu</span>
-<span>Scroll untuk baca</span>
-</div>
-
+<div class="bios-root">
+  <div class="bios-header">BIOS Setup Utility — x62</div>
+  <div class="bios-menu" id="biosMenu"></div>
+  <div class="bios-content" id="biosContent"></div>
+  <div class="bios-footer">
+    <div>
+      <button class="nav-btn" id="btnPrev">◄ Prev</button>
+      <button class="nav-btn" id="btnNext">Next ►</button>
+    </div>
+    <span>← → Arrow keys / Tap menu</span>
+  </div>
 </div>
 
 <script>
-
-const menus = ["Main","Summary","Experience","Education","Skills","Projects"];
-let currentMenu = 0;
+const MENUS = ["Main","Summary","Experience","Education","Skills","Projects"];
+let current = 0;
 let typing = false;
 
-/* TYPEWRITER PER BARIS */
-function typeLines(el, lines, i = 0) {
-    if (i >= lines.length) {
-        typing = false;
-        return;
-    }
-
-    let div = document.createElement("div");
-    div.className = "item";
-    el.appendChild(div);
-
-    let text = lines[i];
-    let j = 0;
-
-    function typeChar() {
-        if (j < text.length) {
-            div.innerHTML += text[j];
-            j++;
-            setTimeout(typeChar, 10);
-        } else {
-            typeLines(el, lines, i + 1);
-        }
-    }
-
-    typeChar();
-}
-
-/* RENDER DATA */
-function render(){
-
-document.querySelectorAll("#menu div").forEach((m,i)=>{
-m.classList.toggle("active", i===currentMenu);
-});
-
-let lines = [];
-
-/* MAIN */
-if(menus[currentMenu]==="Main"){
-lines = [
-"Name ............ Rahman Surya",
-"Field ........... Informatics Engineering",
-"Focus Area ...... Software Development & Security Analyst",
-"Primary Stack ... PHP, Python, SQL Server",
-"Interest ........ Automation, Backend Systems, Networking & Security Engineering",
-"Status .......... Open to Opportunities"
-];
-}
-
-/* SUMMARY */
-if(menus[currentMenu]==="Summary"){
-lines = [
-"Professional Summary",
-"",
-"Seorang individu dengan latar belakang Teknik Informatika yang memiliki ketertarikan kuat pada bidang pengembangan perangkat lunak, keamanan sistem, serta otomatisasi proses berbasis teknologi.",
-"Memiliki kemampuan analitis yang baik dalam memahami sistem dan problem solving untuk solusi efisien & scalable.",
-"",
-"Berpengalaman dalam web development menggunakan Python, PHP, Lua, serta database dan struktur data."
-];
-}
-
-/* EXPERIENCE */
-if(menus[currentMenu]==="Experience"){
-lines = [
-"Experience Timeline",
-"",
-"[2007 - 2009] Early Computer Exposure",
-"Windows XP, file system, basic software usage",
-"",
-"[2010 - 2012] Internet & Networking",
-"LAN, modem setup, forum & community exploration",
-"",
-"[2013 - 2015] Scripting & Logic",
-"Game/app modification, basic programming logic",
-"",
-"[2016 - 2017] Programming Fundamentals",
-"PHP, Python basics, algorithm learning",
-"",
-"[2018 - 2019] Web & Database",
-"CRUD system, MySQL / SQL Server integration",
-"",
-"[2020 - 2021] Automation & Linux",
-"Backend scripting, system automation",
-"",
-"[2022 - 2023] API Integration",
-"WhatsApp notification system, real-time data",
-"",
-"[2024 - 2025] Optimization",
-"Performance tuning, debugging, system design",
-"",
-"[2026 - Present] System Engineering",
-"Security awareness, automation, monitoring systems"
-];
-}
-
-/* EDUCATION */
-if(menus[currentMenu]==="Education"){
-lines = [
-"Teknik Informatika",
-"",
-"Focus:",
-"- Programming",
-"- Database",
-"- Networking",
-"- System Design",
-"- Software Engineering"
-];
-}
-
-/* SKILLS */
-if(menus[currentMenu]==="Skills"){
-lines = [
-"Technical Skills",
-"",
-"Backend Development .......... [█████████ ]",
-"PHP Programming .............. [█████████ ]",
-"Python Programming ........... [████████  ]",
-"Database (SQL Server) ........ [████████  ]",
-"Scripting (Lua/Bash) ......... [████████  ]",
-"Debugging & Troubleshooting .. [█████████ ]",
-"",
-"Security & Networking",
-"Basic Penetration Testing .... [███████   ]",
-"Web Security (OWASP) ......... [████████  ]",
-"Network Analysis ............. [████████  ]",
-"System Hardening ............. [███████   ]",
-"",
-"Hobbies",
-"Gaming & Strategy ............ [█████████ ]",
-"Exploration & Adventure ...... [████████  ]"
-];
-}
-
-/* PROJECTS */
-if(menus[currentMenu]==="Projects"){
-lines = ["Loading repositories..."];
-fetch("https://api.github.com/users/rahmansurya/repos")
-.then(res=>res.json())
-.then(data=>{
-let repoLines = data.slice(0,6).map(r=>r.name);
-document.getElementById("content").innerHTML="";
-typing = true;
-typeLines(document.getElementById("content"), repoLines);
-});
-}
-
-/* RESET CONTENT */
-if(menus[currentMenu]!=="Projects"){
-let content = document.getElementById("content");
-content.innerHTML = "";
-typing = true;
-typeLines(content, lines);
-}
-
-}
-
-/* NAV */
-document.addEventListener("keydown", e=>{
-if(typing) return;
-
-if(e.key==="ArrowRight"){
-currentMenu = (currentMenu+1)%menus.length;
-}
-if(e.key==="ArrowLeft"){
-currentMenu = (currentMenu-1+menus.length)%menus.length;
-}
-
-render();
-});
-
-/* CLICK */
-document.getElementById("menu").onclick = e=>{
-if(e.target.tagName==="DIV"){
-currentMenu = [...e.target.parentNode.children].indexOf(e.target);
-render();
-}
+const DATA = {
+  Main: [
+    {t:"title", v:"[ System Information ]"},
+    {t:"blank"},
+    {t:"line", v:"Name ............. Rahman Surya"},
+    {t:"line", v:"Field ............ Informatics Engineering"},
+    {t:"line", v:"Focus Area ....... Software Dev & Security"},
+    {t:"line", v:"Primary Stack .... PHP, Python, SQL Server"},
+    {t:"line", v:"Interest ......... Automation, Backend, Security"},
+    {t:"line", v:"Status ........... Open to Opportunities"},
+  ],
+  Summary: [
+    {t:"title", v:"[ Professional Summary ]"},
+    {t:"blank"},
+    {t:"line", v:"Individu dengan latar belakang Teknik"},
+    {t:"line", v:"Informatika, ketertarikan kuat pada"},
+    {t:"line", v:"pengembangan software, keamanan sistem,"},
+    {t:"line", v:"dan otomatisasi proses."},
+    {t:"blank"},
+    {t:"line", v:"Kemampuan analitis yang baik dalam"},
+    {t:"line", v:"problem solving untuk solusi efisien"},
+    {t:"line", v:"dan scalable."},
+    {t:"blank"},
+    {t:"line", v:"Berpengalaman pada web development"},
+    {t:"line", v:"menggunakan PHP, Python, Lua serta"},
+    {t:"line", v:"database dan struktur data."},
+  ],
+  Experience: [
+    {t:"title", v:"[ Experience Timeline ]"},
+    {t:"blank"},
+    {t:"sub",  v:"[2007-2009] Early Computer Exposure"},
+    {t:"line", v:" Windows XP, file system, software"},
+    {t:"blank"},
+    {t:"sub",  v:"[2010-2012] Internet & Networking"},
+    {t:"line", v:" LAN, modem, community exploration"},
+    {t:"blank"},
+    {t:"sub",  v:"[2013-2015] Scripting & Logic"},
+    {t:"line", v:" Mod game, basic programming logic"},
+    {t:"blank"},
+    {t:"sub",  v:"[2016-2017] Programming Fundamentals"},
+    {t:"line", v:" PHP, Python basics, algorithms"},
+    {t:"blank"},
+    {t:"sub",  v:"[2018-2019] Web & Database"},
+    {t:"line", v:" CRUD, MySQL / SQL Server"},
+    {t:"blank"},
+    {t:"sub",  v:"[2020-2021] Automation & Linux"},
+    {t:"line", v:" Backend scripting, system automation"},
+    {t:"blank"},
+    {t:"sub",  v:"[2022-2023] API Integration"},
+    {t:"line", v:" WhatsApp notif, real-time data"},
+    {t:"blank"},
+    {t:"sub",  v:"[2024-2025] Optimization"},
+    {t:"line", v:" Performance, debugging, system design"},
+    {t:"blank"},
+    {t:"sub",  v:"[2026-Now] System Engineering"},
+    {t:"line", v:" Security, automation, monitoring"},
+  ],
+  Education: [
+    {t:"title", v:"[ Education ]"},
+    {t:"blank"},
+    {t:"sub",  v:"Teknik Informatika"},
+    {t:"blank"},
+    {t:"line", v:"Focus Areas:"},
+    {t:"line", v:" - Programming"},
+    {t:"line", v:" - Database"},
+    {t:"line", v:" - Networking"},
+    {t:"line", v:" - System Design"},
+    {t:"line", v:" - Software Engineering"},
+  ],
+  Skills: [
+    {t:"title", v:"[ Technical Skills ]"},
+    {t:"blank"},
+    {t:"bar", label:"Backend Dev",     fill:9},
+    {t:"bar", label:"PHP",             fill:9},
+    {t:"bar", label:"Python",          fill:8},
+    {t:"bar", label:"SQL Server",      fill:8},
+    {t:"bar", label:"Lua/Bash",        fill:8},
+    {t:"bar", label:"Debugging",       fill:9},
+    {t:"blank"},
+    {t:"sub",  v:"Security & Networking"},
+    {t:"bar", label:"Pentest Basics",  fill:7},
+    {t:"bar", label:"Web Security",    fill:8},
+    {t:"bar", label:"Net Analysis",    fill:8},
+    {t:"bar", label:"Sys Hardening",   fill:7},
+    {t:"blank"},
+    {t:"sub",  v:"Hobbies"},
+    {t:"bar", label:"Gaming/Strategy", fill:9},
+    {t:"bar", label:"Exploration",     fill:8},
+  ],
+  Projects: [
+    {t:"title", v:"[ GitHub Repositories ]"},
+    {t:"blank"},
+    {t:"line", v:"Fetching from github.com..."},
+  ],
 };
 
+function bar(label, fill) {
+  const total = 10;
+  return label.padEnd(14,".") + " [" + "█".repeat(fill) + " ".repeat(total-fill) + "]";
+}
+
+function renderMenu() {
+  const el = document.getElementById("biosMenu");
+  el.innerHTML = "";
+  MENUS.forEach((m, i) => {
+    const d = document.createElement("div");
+    d.textContent = m;
+    if (i === current) d.classList.add("active");
+    d.onclick = () => { if (!typing) { current = i; render(); } };
+    el.appendChild(d);
+  });
+}
+
+function typeLines(lines) {
+  const el = document.getElementById("biosContent");
+  el.innerHTML = "";
+  typing = true;
+  let i = 0;
+
+  function nextLine() {
+    if (i >= lines.length) { typing = false; return; }
+    const ln = lines[i++];
+
+    if (ln.t === "blank") {
+      const d = document.createElement("span");
+      d.className = "bios-line blank";
+      el.appendChild(d);
+      setTimeout(nextLine, 8);
+      return;
+    }
+
+    const d = document.createElement("div");
+    if (ln.t === "title") d.className = "bios-line title-line";
+    else if (ln.t === "sub") d.className = "bios-line sub-line";
+    else d.className = "bios-line";
+    el.appendChild(d);
+
+    const text = ln.t === "bar" ? bar(ln.label, ln.fill) : ln.v;
+    let j = 0;
+    function ch() {
+      if (j < text.length) { d.textContent += text[j++]; setTimeout(ch, 8); }
+      else setTimeout(nextLine, 6);
+    }
+    ch();
+  }
+  nextLine();
+}
+
+function render() {
+  renderMenu();
+  const key = MENUS[current];
+
+  if (key === "Projects") {
+    typeLines(DATA.Projects);
+    fetch("https://api.github.com/users/rahmansurya/repos")
+      .then(r => r.json())
+      .then(data => {
+        if (!Array.isArray(data)) throw 0;
+        const lines = [
+          {t:"title", v:"[ GitHub Repositories ]"},
+          {t:"blank"},
+          ...data.slice(0,8).map(r => ({
+            t:"line",
+            v:"► " + r.name + (r.description ? "  —  " + r.description.slice(0,28) : "")
+          })),
+          {t:"blank"},
+          {t:"line", v:"github.com/rahmansurya"},
+        ];
+        typeLines(lines);
+      })
+      .catch(() => typeLines([
+        {t:"title", v:"[ GitHub Repositories ]"},
+        {t:"blank"},
+        {t:"line", v:"Gagal load. Visit:"},
+        {t:"line", v:"github.com/rahmansurya"},
+      ]));
+    return;
+  }
+
+  typeLines(DATA[key]);
+}
+
+document.getElementById("btnPrev").onclick = () => {
+  if (typing) return;
+  current = (current - 1 + MENUS.length) % MENUS.length;
+  render();
+};
+document.getElementById("btnNext").onclick = () => {
+  if (typing) return;
+  current = (current + 1) % MENUS.length;
+  render();
+};
+
+document.addEventListener("keydown", e => {
+  if (typing) return;
+  if (e.key === "ArrowRight") { current = (current+1) % MENUS.length; render(); }
+  if (e.key === "ArrowLeft")  { current = (current-1+MENUS.length) % MENUS.length; render(); }
+});
+
 render();
-
 </script>
-
-</body>
-</html>
