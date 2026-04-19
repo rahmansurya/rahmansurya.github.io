@@ -3,244 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vir0e5 | Cyber Ops</title>
+<title>root@vir0e5</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
 body {
-    background:#050505;
+    margin:0;
+    background:black;
     color:#00ff41;
-    font-family:'Orbitron', monospace;
-    overflow-x:hidden;
+    font-family:"Courier New", monospace;
+    overflow:hidden;
 }
 
-/* MATRIX BG */
-canvas {
+/* CRT EFFECT */
+body::after {
+    content:"";
     position:fixed;
-    top:0;
-    left:0;
-    z-index:1;
-    opacity:0.15;
-}
-
-/* CONTAINER */
-.container {
-    position:relative;
-    z-index:10;
-    max-width:1000px;
-    margin:auto;
-    padding:40px 20px;
-}
-
-/* HEADER */
-.name {
-    font-size:4em;
-    text-align:center;
-    color:#ff0033;
-    text-shadow:0 0 25px #ff0033;
-    animation: glitch 1.5s infinite;
-}
-
-.title {
-    text-align:center;
-    opacity:0.7;
-    letter-spacing:3px;
-}
-
-/* GLITCH */
-@keyframes glitch {
-    0% {transform:translate(0);}
-    20% {transform:translate(-2px,2px);}
-    40% {transform:translate(2px,-2px);}
-    60% {transform:translate(-2px,-2px);}
-    80% {transform:translate(2px,2px);}
-}
-
-/* SECTION */
-.section {
-    margin-top:30px;
-    padding:25px;
-    background:rgba(0,0,0,0.7);
-    border-left:4px solid #ff0033;
-    transition:0.3s;
-}
-
-.section:hover {
-    box-shadow:0 0 20px #ff0033;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:repeating-linear-gradient(
+        0deg,
+        rgba(0,255,0,0.05),
+        rgba(0,255,0,0.05) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events:none;
 }
 
 /* TERMINAL */
-.terminal {
-    background:#000;
-    padding:15px;
-    font-family:monospace;
-    border:1px solid #00ff41;
+#terminal {
+    padding:20px;
+    height:100vh;
+    overflow-y:auto;
+    white-space:pre-wrap;
 }
 
-#terminal-input {
+/* INPUT */
+.input-line {
+    display:flex;
+}
+.prompt {
+    color:#00ff41;
+    margin-right:5px;
+}
+input {
     background:none;
     border:none;
     outline:none;
     color:#00ff41;
     width:100%;
+    font-family:inherit;
 }
 
-/* SKILLS */
-.skill {
-    display:inline-block;
-    padding:5px 10px;
-    margin:5px;
-    border:1px solid #00ff41;
-    cursor:pointer;
+/* BLINK */
+.cursor {
+    animation:blink 1s infinite;
 }
-
-.skill:hover {
-    background:#ff0033;
+@keyframes blink {
+    50% {opacity:0;}
 }
-
-/* BUTTON */
-button {
-    background:black;
-    color:#00ff41;
-    border:1px solid #00ff41;
-    padding:10px;
-    cursor:pointer;
-}
-
-button:hover {
-    background:#ff0033;
-}
-
 </style>
 </head>
 
 <body>
 
-<canvas id="matrix"></canvas>
+<div id="terminal"></div>
 
-<div class="container">
-
-    <h1 class="name">vir0e5</h1>
-    <p class="title" id="typing"></p>
-
-    <!-- IDENTITY -->
-    <div class="section">
-        <h2>IDENTITY</h2>
-        <p>> Location: 127.0.0.1</p>
-        <p>> Status: ONLINE</p>
-        <p>> GitHub: rahmansurya</p>
-    </div>
-
-    <!-- SKILLS -->
-    <div class="section">
-        <h2>SKILLS</h2>
-        <div>
-            <span class="skill">Python</span>
-            <span class="skill">Lua</span>
-            <span class="skill">PHP</span>
-            <span class="skill">Linux</span>
-            <span class="skill">Wireshark</span>
-        </div>
-    </div>
-
-    <!-- TERMINAL INTERAKTIF -->
-    <div class="section">
-        <h2>TERMINAL</h2>
-        <div class="terminal" id="terminal">
-            <div>> type "help"</div>
-        </div>
-        <input id="terminal-input" placeholder="ketik command...">
-    </div>
-
-    <!-- BUTTON -->
-    <div class="section">
-        <button onclick="hackEffect()">INITIATE SCAN</button>
-    </div>
-
-</div>
-
-<script>
-
-/* MATRIX EFFECT */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const chars = "01アイウエオ";
-const size = 16;
-const columns = canvas.width / size;
-const drops = Array(Math.floor(columns)).fill(1);
-
-function draw(){
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    ctx.fillStyle = "#00ff41";
-    ctx.font = size + "px monospace";
-
-    drops.forEach((y,i)=>{
-        const text = chars[Math.floor(Math.random()*chars.length)];
-        ctx.fillText(text, i*size, y*size);
-
-        if(y*size > canvas.height && Math.random() > 0.97){
-            drops[i]=0;
-        }
-        drops[i]++;
-    });
-}
-setInterval(draw,50);
-
-/* TYPING EFFECT */
-const text = "CYBERSECURITY | PENETRATION TESTER | RED TEAM";
-let i = 0;
-
-function typing(){
-    if(i < text.length){
-        document.getElementById("typing").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typing,50);
-    }
-}
-typing();
-
-/* TERMINAL */
-const input = document.getElementById("terminal-input");
-const terminal = document.getElementById("terminal");
-
-input.addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
-        const cmd = input.value;
-        let output = "";
-
-        if(cmd === "help"){
-            output = "commands: help, scan, clear";
-        } else if(cmd === "scan"){
-            output = "scanning target... success";
-        } else if(cmd === "clear"){
-            terminal.innerHTML = "";
-            input.value = "";
-            return;
-        } else {
-            output = "command not found";
-        }
-
-        terminal.innerHTML += "<div>> "+cmd+"</div>";
-        terminal.innerHTML += "<div>"+output+"</div>";
-        input.value = "";
-    }
-});
-
-/* BUTTON EFFECT */
-function hackEffect(){
-    alert("ACCESSING TARGET...");
-}
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
