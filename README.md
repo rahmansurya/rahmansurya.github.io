@@ -60,19 +60,6 @@ drwxr-xr-x  security/
 ---
 
 
-
-## `$ cat stats.json`
-
-<div align="center">
-
-![Rahman's GitHub Stats](https://github-readme-stats.vercel.app/api?username=rahmansurya&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=3fb950&icon_color=79c0ff&text_color=c9d1d9)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=rahmansurya&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=3fb950&text_color=c9d1d9)
-
-</div>
-
----
-
 ## `$ ./contact.sh`
 
 ```bash
