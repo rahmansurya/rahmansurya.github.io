@@ -59,18 +59,7 @@ drwxr-xr-x  security/
 
 ---
 
-## `$ ls -la projects/`
 
-| Status | Project | Description | Stack |
-|--------|---------|-------------|-------|
-| 🟢 `live` | **OTP Penarikan SMA** | One-Time Password untuk otorisasi penarikan SMA | `JS` `HTML` |
-| 🔴 `wip` | **KCTT Manager V5** | Manajemen Kartu Contoh Tanda Tangan digital | `JS` `SQL Server` |
-| 🔴 `wip` | **Rekening Lama** | Pengecekan & tracking rekening dormant | `SQL Server` `HTML` |
-| 🔴 `wip` | **Slip Register** | Verifikasi slip transaksi nasabah | `JS` `SQL Server` |
-| 🟢 `live` | **Portfolio BIOS** | Personal portfolio dengan UI retro BIOS | `HTML` `CSS` `JS` `GitHub API` |
-| 🟢 `live` | **Web Links NBP31** | Dashboard internal web apps BPR NBP 31 | `HTML` `CSS` `JS` |
-
----
 
 ## `$ cat stats.json`
 
@@ -93,8 +82,6 @@ echo "Let's connect!"
 
 open "https://rahmansurya.github.io"          # Portfolio
 open "https://github.com/rahmansurya"         # GitHub
-open "mailto:your.email@example.com"          # Email
-open "https://linkedin.com/in/yourprofile"    # LinkedIn
 ```
 
 > 💬 Feel free to reach out for collaborations, projects, or just to say hi!
