@@ -470,13 +470,21 @@
           <div class="card-path">./slip_register</div>
         </div>
       </a>
-
-
-
-
-
     </div>
   </div>
+
+	<!-- ── SECTION: REPOSITORIES ── -->
+	<div class="section section-fade sf1" id="section-repos">
+	  <div class="section-title">github repositories</div>
+	  
+	  <div id="repos-grid" class="grid">
+		<!-- Repos akan di-load via JS -->
+		<div style="grid-column: 1/-1; text-align:center; padding: 40px 20px; color:var(--muted);">
+		  <span style="color:var(--green)">loading repositories...</span>
+		</div>
+	  </div>
+	</div>
+
 
   <!-- ── SECTION: SKILLS ── -->
   <div class="section section-fade sf2">
@@ -514,38 +522,86 @@
     <span>rahman@surya-dev</span> Since 2013
   </div>
 
-  <script>
-    // animate skill bars after page load
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelectorAll('.skill-fill').forEach(bar => {
-          bar.style.width = bar.dataset.pct + '%';
-        });
-      }, 4800);
+<script>
+  // Animate skill bars
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.skill-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    }, 4800);
+  });
+
+  // Filter function (sudah ada)
+  function filterCards() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(c => {
+      const match = 
+        (c.dataset.name || '').toLowerCase().includes(q) ||
+        c.querySelector('.card-name').textContent.toLowerCase().includes(q) ||
+        c.querySelector('.card-desc').textContent.toLowerCase().includes(q);
+      c.style.display = match ? '' : 'none';
     });
+  }
 
-    function filterCards() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      let visible = 0;
+  // === FETCH GITHUB REPOS ===
+  async function loadRepositories() {
+    const grid = document.getElementById('repos-grid');
+    const username = 'rahmansurya';
 
-      cards.forEach(c => {
-        const match =
-          c.dataset.name.includes(q) ||
-          c.querySelector('.card-name').textContent.toLowerCase().includes(q) ||
-          c.querySelector('.card-desc').textContent.toLowerCase().includes(q);
-        c.style.display = match ? '' : 'none';
-        if (match) visible++;
+    try {
+      const res = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=12`);
+      
+      if (!res.ok) throw new Error('Failed to fetch');
+
+      const repos = await res.json();
+
+      grid.innerHTML = '';
+
+      if (repos.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--muted);">No public repositories found.</div>`;
+        return;
+      }
+
+      repos.forEach(repo => {
+        const card = document.createElement('a');
+        card.href = repo.html_url;
+        card.target = '_blank';
+        card.className = 'card';
+        card.dataset.name = repo.name + ' ' + (repo.description || '');
+
+        const language = repo.language ? 
+          `<span style="font-size:10px; color:var(--cyan); background:rgba(121,192,255,0.1); padding:1px 6px; border-radius:3px;">${repo.language}</span>` : '';
+
+        card.innerHTML = `
+          <div class="card-icon">📦</div>
+          <div>
+            <div class="card-name">${repo.name}</div>
+            <div class="card-desc">${repo.description ? repo.description : 'No description'}</div>
+            <div class="card-path" style="margin-top:6px; display:flex; gap:12px; align-items:center; font-size:10px;">
+              ${language}
+              <span>★ ${repo.stargazers_count}</span>
+              <span>🍴 ${repo.forks_count}</span>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
       });
 
-      document.getElementById('footer-count').textContent = visible;
-
-      document.querySelectorAll('.section').forEach(sec => {
-        if (!sec.id) return;
-        const any = [...sec.querySelectorAll('.card')].some(c => c.style.display !== 'none');
-        sec.style.display = any ? '' : 'none';
-      });
+    } catch (err) {
+      console.error(err);
+      grid.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--red);">
+          Gagal memuat repository<br>
+          <small style="color:var(--muted)">Cek koneksi atau GitHub API limit</small>
+        </div>`;
     }
-  </script>
+  }
+
+  // Load repos saat halaman selesai dimuat
+  window.addEventListener('load', loadRepositories);
+</script>
 </body>
 </html>
