@@ -1,337 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rahman@surya:~$ portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0d1117;
+      --bg2:      #161b22;
+      --bg3:      #21262d;
+      --border:   #30363d;
+      --green:    #3fb950;
+      --green2:   #56d364;
+      --cyan:     #79c0ff;
+      --yellow:   #e3b341;
+      --red:      #ff7b72;
+      --purple:   #d2a8ff;
+      --muted:    #8b949e;
+      --text:     #c9d1d9;
+      --white:    #f0f6fc;
+    }
 
-  html, body { background: #000080 !important; }
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-  .bios-root {
-    background: #000080;
-    color: #ffffff;
-    font-family: "Courier New", Courier, monospace;
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+    /* scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
 
-  .bios-header {
-    text-align: center;
-    padding: 6px 10px;
-    font-weight: bold;
-    font-size: 15px;
-    border-bottom: 1px solid #fff;
-    letter-spacing: 1px;
-    background: #000080;
-  }
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-  .bios-menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2px 4px;
-    border-bottom: 1px solid #fff;
-    padding: 5px 6px;
-    background: #000070;
-  }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
 
-  .bios-menu div {
-    cursor: pointer;
-    padding: 3px 10px;
-    font-size: 13px;
-    font-family: "Courier New", Courier, monospace;
-    white-space: nowrap;
-    border: 1px solid transparent;
-    user-select: none;
-  }
+    .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
 
-  .bios-menu div.active {
-    background: #fff;
-    color: #000080;
-    font-weight: bold;
-  }
+    .topbar-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin-left: 8px;
+    }
+    .topbar-title span { color: var(--green); }
+    .topbar-title .at { color: var(--muted); }
+    .topbar-title .host { color: var(--cyan); }
+    .topbar-title .path { color: var(--yellow); }
 
-  .bios-content {
-    flex: 1;
-    padding: 14px 24px;
-    overflow-y: auto;
-    background: #000080;
-  }
+    .topbar-right {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-  .bios-line {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 14px;
-    white-space: pre-wrap;
-    word-break: break-word;
-    line-height: 1.65;
-    color: #fff;
-  }
+    /* ── HERO / INTRO ── */
+    .hero {
+      padding: 32px 24px 0;
+      max-width: 860px;
+    }
 
-  .bios-line.title-line {
-    font-size: 15px;
-    font-weight: bold;
-    color: #ffff00;
-    margin-top: 4px;
-  }
+    .prompt-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+    .ps1 { color: var(--green); white-space: nowrap; flex-shrink: 0; }
+    .ps1 .u { color: var(--green2); }
+    .ps1 .at { color: var(--muted); }
+    .ps1 .h { color: var(--cyan); }
+    .ps1 .p { color: var(--yellow); }
+    .ps1 .sym { color: var(--green); }
 
-  .bios-line.sub-line {
-    font-size: 13px;
-    color: #aaffff;
-    font-weight: bold;
-  }
+    .output { padding-left: 0; color: var(--text); line-height: 1.7; }
+    .output .key { color: var(--purple); }
+    .output .val { color: var(--white); }
+    .output .str { color: var(--yellow); }
 
-  .bios-line.blank { height: 10px; display: block; }
+    .cursor {
+      display: inline-block;
+      width: 9px; height: 15px;
+      background: var(--green);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  .bios-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 10px;
-    border-top: 1px solid #fff;
-    font-size: 11px;
-    background: #000070;
-    flex-wrap: wrap;
-    gap: 4px;
-    color: #aaddff;
-  }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
 
-  .nav-btn {
-    background: #fff;
-    color: #000080;
-    border: none;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 3px 10px;
-    cursor: pointer;
-    margin-right: 4px;
-  }
+    /* ── SEARCH ── */
+    .search-wrap {
+      padding: 0 24px;
+      margin-bottom: 20px;
+    }
 
-  @media (max-width: 520px) {
-    .bios-header { font-size: 12px; padding: 5px 6px; }
-    .bios-menu div { font-size: 11px; padding: 3px 6px; }
-    .bios-content { padding: 10px 12px; }
-    .bios-line { font-size: 12px; }
-    .bios-line.title-line { font-size: 13px; }
-    .bios-line.sub-line { font-size: 11px; }
-  }
-</style>
+    .search-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      max-width: 400px;
+      transition: border-color 0.15s;
+    }
+    .search-inner:focus-within { border-color: var(--green); }
 
-<div class="bios-root">
-  <div class="bios-header">BIOS Setup Utility — x62</div>
-  <div class="bios-menu" id="biosMenu"></div>
-  <div class="bios-content" id="biosContent"></div>
-  <div class="bios-footer">
-    <div>
-      <button class="nav-btn" id="btnPrev">◄ Prev</button>
-      <button class="nav-btn" id="btnNext">Next ►</button>
+    .search-prompt { color: var(--green); white-space: nowrap; font-size: 12px; }
+
+    .search-inner input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      flex: 1;
+      caret-color: var(--green);
+    }
+    .search-inner input::placeholder { color: var(--muted); }
+
+    /* ── SECTION ── */
+    .section { padding: 0 24px 24px; }
+    .section-title {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '#';
+      color: var(--green);
+      font-size: 13px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 16px 16px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      cursor: pointer;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.15s;
+    }
+    .card:hover {
+      border-color: var(--green);
+      background: var(--bg3);
+      transform: translateY(-2px);
+    }
+    .card:hover::before { background: var(--green); }
+    .card:active { transform: scale(0.98); }
+
+    .card-tag {
+      position: absolute;
+      top: 12px; right: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .tag-live    { background: rgba(63,185,80,0.15); color: var(--green2); border: 1px solid rgba(63,185,80,0.3); }
+    .tag-wip     { background: rgba(227,179,65,0.12); color: var(--yellow); border: 1px solid rgba(227,179,65,0.3); }
+    .tag-off     { background: rgba(255,123,114,0.12); color: var(--red); border: 1px solid rgba(255,123,114,0.3); }
+    .tag-new     { background: rgba(210,168,255,0.12); color: var(--purple); border: 1px solid rgba(210,168,255,0.3); }
+
+    .card-icon {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .card-path {
+      font-size: 10px;
+      color: var(--green);
+      opacity: 0.6;
+      margin-top: 2px;
+    }
+
+    /* ── SKILLS BAR ── */
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .skill-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 36px;
+      align-items: center;
+      gap: 12px;
+    }
+    .skill-label { font-size: 12px; color: var(--cyan); }
+    .skill-bar {
+      height: 6px;
+      background: var(--bg3);
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 3px;
+      width: 0;
+      transition: width 1.2s ease;
+    }
+    .skill-pct { font-size: 11px; color: var(--muted); text-align: right; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .contact-btn:hover { border-color: var(--cyan); color: var(--cyan); background: var(--bg3); }
+    .contact-btn .ico { font-size: 14px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 20px 24px 36px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .footer span { color: var(--green); }
+
+    /* ── TYPEWRITER ── */
+    .typewriter { overflow: hidden; white-space: nowrap; width: 0; animation: type 1.8s steps(40,end) forwards; }
+    .typewriter2 { overflow: hidden; white-space: nowrap; width: 0; animation: type 1.4s steps(35,end) 1.9s forwards; }
+    .typewriter3 { overflow: hidden; white-space: nowrap; width: 0; animation: type 0.8s steps(20,end) 3.4s forwards; }
+    @keyframes type { to { width: 100%; } }
+
+    .fade-in { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+    .fade-in:nth-child(1) { animation-delay: 3.8s; }
+    .fade-in:nth-child(2) { animation-delay: 3.9s; }
+    .fade-in:nth-child(3) { animation-delay: 4.0s; }
+    .fade-in:nth-child(4) { animation-delay: 4.1s; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .section-fade { opacity: 0; animation: fadeIn 0.6s ease forwards; }
+    .sf1 { animation-delay: 4.2s; }
+    .sf2 { animation-delay: 4.4s; }
+    .sf3 { animation-delay: 4.6s; }
+    .sf4 { animation-delay: 4.8s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 16px; }
+      .topbar-right .status-label { display: none; }
+      .hero, .search-wrap, .section { padding-left: 16px; padding-right: 16px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; }
+      .card { padding: 14px 12px; }
+      .skill-row { grid-template-columns: 90px 1fr 32px; gap: 8px; }
+      .topbar-title { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── TOPBAR ── -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <div class="topbar-title">
+        <span class="u">rahman</span><span class="at">@</span><span class="h">surya-dev</span><span class="at">:</span><span class="p">~/portfolio</span><span class="sym"> $</span>
+      </div>
     </div>
-    <span>← → Arrow keys / Tap menu</span>
+    <div class="topbar-right">
+      <div class="status-dot"></div>
+      <span class="status-label">online</span>
+      <span style="color:var(--border)">|</span>
+      <span>bash 5.2.0</span>
+    </div>
   </div>
-</div>
 
-<script>
-const MENUS = ["Main","Summary","Experience","Education","Skills","Projects"];
-let current = 0;
-let typing = false;
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="prompt-line">
+      <span class="ps1"><span class="u">rahman</span><span class="at">@</span><span class="h">surya-dev</span><span class="at">:</span><span class="p">~</span><span class="sym"> $</span></span>
+      <span class="typewriter">cat about.txt</span>
+    </div>
 
-const DATA = {
-  Main: [
-    {t:"title", v:"[ System Information ]"},
-    {t:"blank"},
-    {t:"line", v:"Name ............. Rahman Surya"},
-    {t:"line", v:"Field ............ Informatics Engineering"},
-    {t:"line", v:"Focus Area ....... Software Dev & Security"},
-    {t:"line", v:"Primary Stack .... PHP, Python, SQL Server"},
-    {t:"line", v:"Interest ......... Automation, Backend, Security"},
-    {t:"line", v:"Status ........... Open to Opportunities"},
-  ],
-  Summary: [
-    {t:"title", v:"[ Professional Summary ]"},
-    {t:"blank"},
-    {t:"line", v:"Individu dengan latar belakang Teknik"},
-    {t:"line", v:"Informatika, ketertarikan kuat pada"},
-    {t:"line", v:"pengembangan software, keamanan sistem,"},
-    {t:"line", v:"dan otomatisasi proses."},
-    {t:"blank"},
-    {t:"line", v:"Kemampuan analitis yang baik dalam"},
-    {t:"line", v:"problem solving untuk solusi efisien"},
-    {t:"line", v:"dan scalable."},
-    {t:"blank"},
-    {t:"line", v:"Berpengalaman pada web development"},
-    {t:"line", v:"menggunakan PHP, Python, Lua serta"},
-    {t:"line", v:"database dan struktur data."},
-  ],
-  Experience: [
-    {t:"title", v:"[ Experience Timeline ]"},
-    {t:"blank"},
-    {t:"sub",  v:"[2007-2009] Early Computer Exposure"},
-    {t:"line", v:" Windows XP, file system, software"},
-    {t:"blank"},
-    {t:"sub",  v:"[2010-2012] Internet & Networking"},
-    {t:"line", v:" LAN, modem, community exploration"},
-    {t:"blank"},
-    {t:"sub",  v:"[2013-2015] Scripting & Logic"},
-    {t:"line", v:" Mod game, basic programming logic"},
-    {t:"blank"},
-    {t:"sub",  v:"[2016-2017] Programming Fundamentals"},
-    {t:"line", v:" PHP, Python basics, algorithms"},
-    {t:"blank"},
-    {t:"sub",  v:"[2018-2019] Web & Database"},
-    {t:"line", v:" CRUD, MySQL / SQL Server"},
-    {t:"blank"},
-    {t:"sub",  v:"[2020-2021] Automation & Linux"},
-    {t:"line", v:" Backend scripting, system automation"},
-    {t:"blank"},
-    {t:"sub",  v:"[2022-2023] API Integration"},
-    {t:"line", v:" WhatsApp notif, real-time data"},
-    {t:"blank"},
-    {t:"sub",  v:"[2024-2025] Optimization"},
-    {t:"line", v:" Performance, debugging, system design"},
-    {t:"blank"},
-    {t:"sub",  v:"[2026-Now] System Engineering"},
-    {t:"line", v:" Security, automation, monitoring"},
-  ],
-  Education: [
-    {t:"title", v:"[ Education ]"},
-    {t:"blank"},
-    {t:"sub",  v:"Teknik Informatika"},
-    {t:"blank"},
-    {t:"line", v:"Focus Areas:"},
-    {t:"line", v:" - Programming"},
-    {t:"line", v:" - Database"},
-    {t:"line", v:" - Networking"},
-    {t:"line", v:" - System Design"},
-    {t:"line", v:" - Software Engineering"},
-  ],
-  Skills: [
-    {t:"title", v:"[ Technical Skills ]"},
-    {t:"blank"},
-    {t:"bar", label:"Backend Dev",     fill:9},
-    {t:"bar", label:"PHP",             fill:9},
-    {t:"bar", label:"Python",          fill:8},
-    {t:"bar", label:"SQL Server",      fill:8},
-    {t:"bar", label:"Lua/Bash",        fill:8},
-    {t:"bar", label:"Debugging",       fill:9},
-    {t:"blank"},
-    {t:"sub",  v:"Security & Networking"},
-    {t:"bar", label:"Pentest Basics",  fill:7},
-    {t:"bar", label:"Web Security",    fill:8},
-    {t:"bar", label:"Net Analysis",    fill:8},
-    {t:"bar", label:"Sys Hardening",   fill:7},
-    {t:"blank"},
-    {t:"sub",  v:"Hobbies"},
-    {t:"bar", label:"Gaming/Strategy", fill:9},
-    {t:"bar", label:"Exploration",     fill:8},
-  ],
-  Projects: [
-    {t:"title", v:"[ GitHub Repositories ]"},
-    {t:"blank"},
-    {t:"line", v:"Fetching from github.com..."},
-  ],
-};
+    <div class="output" style="animation: fadeIn 0.5s ease 1.9s forwards; opacity:0;">
+      <div>┌─────────────────────────────────────┐</div>
+      <div>│ <span class="key">name</span>     : <span class="val">Rahman Surya</span>              │</div>
+      <div>│ <span class="key">role</span>     : <span class="val">Informatics Engineering</span>   │</div>
+      <div>│ <span class="key">focus</span>    : <span class="str">"software dev & security"</span>  │</div>
+      <div>│ <span class="key">location</span> : <span class="val">West Java, Indonesia 🇮🇩</span>   │</div>
+      <div>│ <span class="key">github</span>   : <span style="color:var(--cyan)">rahmansurya.github.io</span>      │</div>
+      <div>└─────────────────────────────────────┘</div>
+    </div>
 
-function bar(label, fill) {
-  const total = 10;
-  return label.padEnd(14,".") + " [" + "█".repeat(fill) + " ".repeat(total-fill) + "]";
-}
+    <div class="prompt-line" style="margin-top: 16px; animation: fadeIn 0.5s ease 3.4s forwards; opacity:0;">
+      <span class="ps1"><span class="u">rahman</span><span class="at">@</span><span class="h">surya-dev</span><span class="at">:</span><span class="p">~</span><span class="sym"> $</span></span>
+      <span class="typewriter3">ls -la projects/</span>
+    </div>
+  </div>
 
-function renderMenu() {
-  const el = document.getElementById("biosMenu");
-  el.innerHTML = "";
-  MENUS.forEach((m, i) => {
-    const d = document.createElement("div");
-    d.textContent = m;
-    if (i === current) d.classList.add("active");
-    d.onclick = () => { if (!typing) { current = i; render(); } };
-    el.appendChild(d);
-  });
-}
+  <!-- ── SEARCH ── -->
+  <div class="search-wrap" style="margin-top: 20px; animation: fadeIn 0.5s ease 4.2s forwards; opacity:0;">
+    <div class="search-inner">
+      <span class="search-prompt">grep -r</span>
+      <input type="text" id="searchInput" placeholder="&quot;keyword&quot; ." oninput="filterCards()" autocomplete="off" />
+    </div>
+  </div>
 
-function typeLines(lines) {
-  const el = document.getElementById("biosContent");
-  el.innerHTML = "";
-  typing = true;
-  let i = 0;
+  <!-- ── SECTION: PROJECTS ── -->
+  <div class="section section-fade sf1" id="section-projects">
+    <div class="section-title">projects &amp; tools</div>
+    <div class="grid">
 
-  function nextLine() {
-    if (i >= lines.length) { typing = false; return; }
-    const ln = lines[i++];
+      <a class="card" href="token_sma" target="_blank" data-name="otp one time password penarikan sma token">
+        <span class="card-tag tag-live">live</span>
+        <div class="card-icon">💰</div>
+        <div>
+          <div class="card-name">OTP Penarikan SMA</div>
+          <div class="card-desc">One-Time Password generator untuk otorisasi penarikan SMA</div>
+          <div class="card-path">./token_sma</div>
+        </div>
+      </a>
 
-    if (ln.t === "blank") {
-      const d = document.createElement("span");
-      d.className = "bios-line blank";
-      el.appendChild(d);
-      setTimeout(nextLine, 8);
-      return;
+      <a class="card" href="#" target="_blank" data-name="kctt kartu contoh tanda tangan manager">
+        <span class="card-tag tag-off">on progress</span>
+        <div class="card-icon">🖊️</div>
+        <div>
+          <div class="card-name">KCTT Manager V5</div>
+          <div class="card-desc">Manajemen Kartu Contoh Tanda Tangan digital BPR</div>
+          <div class="card-path">./kctt_v5</div>
+        </div>
+      </a>
+
+      <a class="card" href="#" target="_blank" data-name="rekening lama pengecekan cek dormant">
+        <span class="card-tag tag-off">on progress</span>
+        <div class="card-icon">🏦</div>
+        <div>
+          <div class="card-name">Rekening Lama</div>
+          <div class="card-desc">Sistem pengecekan & tracking rekening dormant</div>
+          <div class="card-path">./rekening_lama</div>
+        </div>
+      </a>
+
+      <a class="card" href="#" target="_blank" data-name="slip register cek bukti transaksi">
+        <span class="card-tag tag-off">on progress</span>
+        <div class="card-icon">📋</div>
+        <div>
+          <div class="card-name">Slip Register</div>
+          <div class="card-desc">Verifikasi dan pengecekan slip transaksi nasabah</div>
+          <div class="card-path">./slip_register</div>
+        </div>
+      </a>
+
+      <a class="card" href="https://rahmansurya.github.io" target="_blank" data-name="portfolio website bios retro github pages">
+        <span class="card-tag tag-live">live</span>
+        <div class="card-icon">🖥️</div>
+        <div>
+          <div class="card-name">Portfolio BIOS</div>
+          <div class="card-desc">Personal portfolio dengan estetika retro BIOS UI</div>
+          <div class="card-path">rahmansurya.github.io</div>
+        </div>
+      </a>
+
+      <a class="card" href="#" target="_blank" data-name="internal web apps links dashboard nbp31">
+        <span class="card-tag tag-live">live</span>
+        <div class="card-icon">🔗</div>
+        <div>
+          <div class="card-name">Web Links NBP31</div>
+          <div class="card-desc">Dashboard internal web apps BPR NBP 31</div>
+          <div class="card-path">./links</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION: SKILLS ── -->
+  <div class="section section-fade sf2">
+    <div class="section-title">skills.sh</div>
+    <div class="skills-list">
+      <div class="skill-row"><span class="skill-label">SQL Server</span><div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div><span class="skill-pct">82%</span></div>
+      <div class="skill-row"><span class="skill-label">JavaScript</span><div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div><span class="skill-pct">78%</span></div>
+      <div class="skill-row"><span class="skill-label">HTML / CSS</span><div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div><span class="skill-pct">88%</span></div>
+      <div class="skill-row"><span class="skill-label">Python</span><div class="skill-bar"><div class="skill-fill" data-pct="65"></div></div><span class="skill-pct">65%</span></div>
+      <div class="skill-row"><span class="skill-label">Sec Analysis</span><div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div><span class="skill-pct">70%</span></div>
+      <div class="skill-row"><span class="skill-label">Linux / Bash</span><div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div><span class="skill-pct">75%</span></div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: CONTACT ── -->
+  <div class="section section-fade sf3">
+    <div class="section-title">contact</div>
+    <div class="contact-grid">
+      <a class="contact-btn" href="https://github.com/rahmansurya" target="_blank">
+        <span class="ico">⌥</span> github/rahmansurya
+      </a>
+      <a class="contact-btn" href="https://rahmansurya.github.io" target="_blank">
+        <span class="ico">🌐</span> rahmansurya.github.io
+      </a>
+      <a class="contact-btn" href="mailto:rahman@example.com">
+        <span class="ico">✉</span> email
+      </a>
+      <a class="contact-btn" href="https://linkedin.com" target="_blank">
+        <span class="ico">▶</span> linkedin
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer section-fade sf4">
+    <span id="footer-count">6</span> projects · <span>rahman@surya-dev</span> · 2026
+  </div>
+
+  <script>
+    // animate skill bars after page load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelectorAll('.skill-fill').forEach(bar => {
+          bar.style.width = bar.dataset.pct + '%';
+        });
+      }, 4800);
+    });
+
+    function filterCards() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      let visible = 0;
+
+      cards.forEach(c => {
+        const match =
+          c.dataset.name.includes(q) ||
+          c.querySelector('.card-name').textContent.toLowerCase().includes(q) ||
+          c.querySelector('.card-desc').textContent.toLowerCase().includes(q);
+        c.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+
+      document.getElementById('footer-count').textContent = visible;
+
+      document.querySelectorAll('.section').forEach(sec => {
+        if (!sec.id) return;
+        const any = [...sec.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+        sec.style.display = any ? '' : 'none';
+      });
     }
-
-    const d = document.createElement("div");
-    if (ln.t === "title") d.className = "bios-line title-line";
-    else if (ln.t === "sub") d.className = "bios-line sub-line";
-    else d.className = "bios-line";
-    el.appendChild(d);
-
-    const text = ln.t === "bar" ? bar(ln.label, ln.fill) : ln.v;
-    let j = 0;
-    function ch() {
-      if (j < text.length) { d.textContent += text[j++]; setTimeout(ch, 8); }
-      else setTimeout(nextLine, 6);
-    }
-    ch();
-  }
-  nextLine();
-}
-
-function render() {
-  renderMenu();
-  const key = MENUS[current];
-
-  if (key === "Projects") {
-    typeLines(DATA.Projects);
-    fetch("https://api.github.com/users/rahmansurya/repos")
-      .then(r => r.json())
-      .then(data => {
-        if (!Array.isArray(data)) throw 0;
-        const lines = [
-          {t:"title", v:"[ GitHub Repositories ]"},
-          {t:"blank"},
-          ...data.slice(0,8).map(r => ({
-            t:"line",
-            v:"► " + r.name + (r.description ? "  —  " + r.description.slice(0,28) : "")
-          })),
-          {t:"blank"},
-          {t:"line", v:"github.com/rahmansurya"},
-        ];
-        typeLines(lines);
-      })
-      .catch(() => typeLines([
-        {t:"title", v:"[ GitHub Repositories ]"},
-        {t:"blank"},
-        {t:"line", v:"Gagal load. Visit:"},
-        {t:"line", v:"github.com/rahmansurya"},
-      ]));
-    return;
-  }
-
-  typeLines(DATA[key]);
-}
-
-document.getElementById("btnPrev").onclick = () => {
-  if (typing) return;
-  current = (current - 1 + MENUS.length) % MENUS.length;
-  render();
-};
-document.getElementById("btnNext").onclick = () => {
-  if (typing) return;
-  current = (current + 1) % MENUS.length;
-  render();
-};
-
-document.addEventListener("keydown", e => {
-  if (typing) return;
-  if (e.key === "ArrowRight") { current = (current+1) % MENUS.length; render(); }
-  if (e.key === "ArrowLeft")  { current = (current-1+MENUS.length) % MENUS.length; render(); }
-});
-
-render();
-</script>
+  </script>
+</body>
+</html>
